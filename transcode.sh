@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Constants
-VIDEO_BITRATE="2M"
-JPEG_QUALITY="10"
-OUTPUT_DIRECTORY="small"
-TIMEZONE="+0000"
+VIDEO_BITRATE="2M"  # the video bitrate in megabits/s
+JPEG_QUALITY="10"  # choose a value of 2 - 31 with 2 being best quality, 31 worst
+OUTPUT_DIRECTORY="small" # save the smaller output here
+TIMEZONE="+0000" # Google photos uses UTC for filenames, dont change this
 
 # Create output directory if it doesn't exist
 mkdir -p $OUTPUT_DIRECTORY
