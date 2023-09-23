@@ -9,9 +9,11 @@ TIMEZONE="+0000" # Google photos uses UTC for filenames, dont change this
 # Create output directory if it doesn't exist
 mkdir -p $OUTPUT_DIRECTORY
 
-# Function to format timestamp from filename
-format_ctime() {
-  local ctime="$1"
+# Convert a Google photos file name to a formtted datetime
+filename2datetime() {
+  local file="$1"
+
+  local ctime=$(echo "$file" | sed -n 's/.*PXL_\([0-9]\{8\}\)_\([0-9]*\).*/\1:2/p')
 
   local date_part=$(echo "$ctime" | cut -d':' -f1)
   local time_part=$(echo "$ctime" | cut -d':' -f2)
@@ -27,8 +29,7 @@ convert_movies() {
   for file in $(ls | grep -E "(mp4|mpeg)$"); do
     ffmpeg -y -i "$file" -c:v libx265 -b:v $VIDEO_BITRATE "$OUTPUT_DIRECTORY/$file"
 
-    local ctime=$(echo "$file" | sed -n 's/.*PXL_\([0-9]\{8\}\)_\([0-9]*\).*/\1:2/p')
-    local formatted_ctime=$(format_ctime "$ctime")
+    local formatted_ctime=$(filename2datetime "$file")
 
     touch -a -m -d "$formatted_ctime" "$OUTPUT_DIRECTORY/$file"
   done
@@ -39,8 +40,7 @@ convert_pictures() {
   for file in $(ls | grep -E "(jpg|jpeg)$"); do
     ffmpeg -y -i "$file" -qscale:v $JPEG_QUALITY "$OUTPUT_DIRECTORY/$file"
 
-    local ctime=$(echo "$file" | sed -n 's/.*PXL_\([0-9]\{8\}\)_\([0-9]*\).*/\1:\2/p')
-    local formatted_ctime=$(format_ctime "$ctime")
+    local formatted_ctime=$(filename2datetime "$file")
 
     touch -a -m -d "$formatted_ctime" "$OUTPUT_DIRECTORY/$file"
   done
