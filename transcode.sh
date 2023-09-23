@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Constants
-VIDEO_BITRATE="2M"  # the video bitrate in megabits/s
+VIDEO_BITRATE="2M"  # choose the video bitrate in megabits/s
 JPEG_QUALITY="10"  # choose a value of 2 - 31 with 2 being best quality, 31 worst
-OUTPUT_DIRECTORY="small" # save the smaller output here
+OUTPUT_DIRECTORY="small" # save the output here
 TIMEZONE="+0000" # Google photos uses UTC for filenames, dont change this
 
-# Create output directory if it doesn't exist
+# Create the output directory if it doesn't exist
 mkdir -p $OUTPUT_DIRECTORY
 
 # Convert a Google photos file name to a formtted datetime
